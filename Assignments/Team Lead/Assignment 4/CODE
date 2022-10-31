@@ -1,1 +1,48 @@
+#include <WiFi.h>
 
+#include <PubSubC1ient.h>
+#include <ArduinoJson.h>
+WiFiC1ient wifiC1ient;
+#define ORG "lbklkq"
+#define DEVICE TYPE "abcd"
+#define DEVICE ID "rasp"
+#define TOKEN "12345678" #define speed 0.034
+char server[] = ORG " .messaging.internetofthings.ibmcloud.com" ; char publishTopic[] " iot -2/evt/abcd_1/fmt/j son ; char topic [ ] "iot-2/cmd/home/fmt/String" ; char authMethod [ ] - "use-token-auth" ; char token[] = TOKEN; char clientld[] -- ORG DEVICE TYPE DEVICE ID;
+PubSubC1ient client(server, 1883, wifiC1ient); void publishData();
+const int trigpin=5; const int echopin=18;
+String	command;
+String	data= 	 	 	 	 
+String	lat="14.167589" ;
+String	lon="80.248510" ;
+String	name= " point2" ;
+String icon= 
+long duration; int dist;
+void setup 
+Serial. begin (115200)  pinMode(trigpin, OUTPUT)  pinMode(echopin, INPUT)  wifiConnect(); mqttConnect();
+void loop() {
+publishData(); delay(500) 
+if ( ! client. loop  mqttConnect() ;
+void wifiConnect() {
+Serial. print("Connecting to " ) ; Serial. print ( "Wifi " ) ; WiFi.begin ( "Wokwi-GUEST" ,  while (WiFi.status() != WL CONNECTED) { delay(500) 
+Serial. print 
+Serial. print("WiFi connected, IP address: "  Serial. print In(WiFi.10ca11P());
+void mqttConnect() { if ( ! client. connected()) {
+Serial. print("Reconnecting MQTT client to Serial. println(server) ; while ( ! client. connect(clientld, authMethod, token)) { Serial. print  delay(1000);
+initManagedDevice() ;
+Serial . print Ino;
+void initManagedDevice() {
+if (client. subscribe(topic)) {
+Serial. print In (client . subscribe (topic));
+Serial println("subscribe to cmd OK");
+} else {
+Serial println("subscribe to cmd FAILED");
+void publishData()
+digitalWrite(trigp1n, LOW); digitalWrite(trigpin,HIGH)  delayMicroseconds(10)  digitalWrite(trigp1n, LOW); duration=pulseln(echopin,HIGH)  dist=duration*speed/2 
+if(dist<  dist-lee-dist; icon="fa-trash" ;
+}else{ dist=e, icon="fa-trash-o" ;
+DynamicJsonDocument doc(1Ø24) 
+String payload; doc [ "Name" ]=name; doc [ " Latitude" ]=lat; doc [ " Longitude"]=lon; doc [ "Icon"  doc [ " FillPercent ] -dist; serializeJson(doc, payload); delay (3000); Serial. print 
+Serial. print("Sending payload:  Serial. print In (payload); if (client. publish(pub1ishTopic, (char* ) payload.c_str())) {
+Serial. print1n("Pub1ish OK");
+} else {
+Serial. print In("Publish FAILED");
